@@ -24,8 +24,7 @@ class ImageDownloader:
             print(f"Getting image from {page_url}")
             page_response = requests.get(page_url)
             page_soup = BeautifulSoup(page_response.text, 'html.parser')
-            infobox = page_soup.find('table', class_='infobox') or page_soup.find('div', class_='thumbimage') \
-                      or page_soup.find('figure', class_='mw-default-size')
+            infobox = page_soup.find('table', class_='infobox') or page_soup.find('div', class_='thumbimage')
             if infobox:
                 image_tag = infobox.find('img')
                 if image_tag:
