@@ -8,8 +8,6 @@ def main() -> None:
     url = 'https://en.wikipedia.org/wiki/List_of_animal_names'
     extractor = DataExtractor(url)
     adjectives = extractor.organize_adjectives()
-    output = OutputManager(adjectives)
-    output.display_data()
 
     # Image downloading
     all_animals = set([animal for animals in adjectives.values() for animal in animals])
@@ -19,6 +17,9 @@ def main() -> None:
     # HTML output
     html_exporter = HTMLExporter(adjectives, "animal_images")
     html_exporter.export_to_html()
+
+    output = OutputManager(adjectives)
+    output.display_data()
 
 
 if __name__ == '__main__':

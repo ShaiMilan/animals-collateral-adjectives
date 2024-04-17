@@ -4,6 +4,8 @@ import requests
 from bs4 import BeautifulSoup
 from typing import Optional, List, Tuple
 
+from loguru import logger
+
 from model import AnimalData
 
 
@@ -15,14 +17,17 @@ class WebScraper:
 
     def fetch_data(self) -> None:
         try:
+            logger.info(f"fetching data from {self.url}")
             response = requests.get(self.url)
             response.raise_for_status()  # Raises an HTTPError for bad responses
             self._soup = BeautifulSoup(response.text, 'html.parser')
         except requests.RequestException as e:
-            print(f"Error fetching data: {e}")
+            logger.error(f"Error fetching data: {e}")
             self._soup = None
+            raise e
 
     def extract_animal_data(self) -> List[AnimalData]:
+        logger.info(f"extracting animals data...")
         animal_list: List[AnimalData] = list()
         if self._soup:
             tables = self._soup.find_all('table', class_='wikitable sortable')
